@@ -87,19 +87,23 @@ function registerMessageListener() {
 }
 
 async function handleUndoCommand() {
+  console.log('YouTube Seek Undo: handleUndoCommand called');
   try {
     const [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
+    console.log('YouTube Seek Undo: Active tab:', activeTab);
     
     if (!activeTab) {
       console.log('YouTube Seek Undo: No active tab found');
       return;
     }
     
+    console.log('YouTube Seek Undo: Checking if YouTube watch page:', activeTab.url);
     if (!isYouTubeWatchPage(activeTab.url)) {
       console.log('YouTube Seek Undo: Active tab is not a YouTube watch page');
       return;
     }
     
+    console.log('YouTube Seek Undo: Sending undo command to tab:', activeTab.id);
     await sendUndoCommand(activeTab.id);
     
   } catch (error) {
@@ -120,8 +124,10 @@ function isYouTubeWatchPage(url) {
 }
 
 async function sendUndoCommand(tabId) {
+  console.log('YouTube Seek Undo: sendUndoCommand called for tab:', tabId);
   try {
     const response = await browser.tabs.sendMessage(tabId, { action: 'undo' });
+    console.log('YouTube Seek Undo: Response from content script:', response);
     
     if (response?.success) {
       console.log('YouTube Seek Undo: Undo command sent successfully');

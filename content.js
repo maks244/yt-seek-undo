@@ -152,7 +152,9 @@ async function getCurrentTabId() {
 
 function setupMessageListener() {
     browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+        console.log('YouTube Seek Undo Content: Message received:', message);
         if (message.action === 'undo') {
+            console.log('YouTube Seek Undo Content: Processing undo action');
             undoLastSeek();
             sendResponse({ success: true });
         }
@@ -163,6 +165,9 @@ function setupMessageListener() {
 }
 
 async function undoLastSeek() {
+    console.log('YouTube Seek Undo: undoLastSeek called, history length:', seekHistory.length);
+    console.log('YouTube Seek Undo: Current seek history:', seekHistory);
+    
     if (seekHistory.length === 0) {
         console.log('YouTube Seek Undo: No seek history to undo');
         return;
@@ -171,7 +176,7 @@ async function undoLastSeek() {
     const lastSeek = seekHistory[seekHistory.length - 1];
     const undoPosition = lastSeek.origin;
 
-    console.log('YouTube Seek Undo: Undoing to position:', undoPosition);
+    console.log('YouTube Seek Undo: Undoing to position:', undoPosition, 'from:', lastSeek.target);
 
     if (!videoElement) {
         console.error('YouTube Seek Undo: Video element not available');
@@ -181,6 +186,7 @@ async function undoLastSeek() {
     // dont record undo as new seek event
     isProgrammaticSeek = true;
     videoElement.currentTime = undoPosition;
+    console.log('YouTube Seek Undo: Video currentTime set to:', undoPosition);
 
     setTimeout(() => {
         isProgrammaticSeek = false;
