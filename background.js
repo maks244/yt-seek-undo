@@ -75,6 +75,17 @@ function registerCommandListener() {
   console.log('YouTube Seek Undo Background: Command listener registered');
 }
 
+function registerMessageListener() {
+  browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.action === 'getTabId') {
+      sendResponse({ tabId: sender.tab?.id || null });
+      return true;
+    }
+  });
+  
+  console.log('YouTube Seek Undo Background: Message listener registered');
+}
+
 async function handleUndoCommand() {
   try {
     const [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
@@ -145,6 +156,7 @@ async function cleanupTabHistory(tabId) {
 function init() {
   console.log('YouTube Seek Undo Background: Initializing...');
   registerCommandListener();
+  registerMessageListener();
   registerTabRemovalListener();
   console.log('YouTube Seek Undo Background: Initialization complete');
 }
