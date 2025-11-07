@@ -168,6 +168,9 @@ async function cleanupTabHistory(tabId) {
 
 async function init() {
   console.log('YouTube Seek Undo Background: Initializing...');
+  console.log('YouTube Seek Undo Background: Browser type:', typeof chrome !== 'undefined' ? 'Chrome' : 'Firefox');
+  console.log('YouTube Seek Undo Background: browser object:', typeof browser);
+  
   registerCommandListener();
   registerMessageListener();
   registerTabRemovalListener();
@@ -183,4 +186,10 @@ async function init() {
   console.log('YouTube Seek Undo Background: Initialization complete');
 }
 
+// Run init immediately
 init();
+
+// Keep service worker alive in Chrome
+if (typeof chrome !== 'undefined' && chrome.runtime) {
+  console.log('YouTube Seek Undo Background: Chrome detected, setting up keepalive');
+}
