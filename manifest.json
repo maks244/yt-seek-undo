@@ -13,20 +13,25 @@
   ],
   "content_scripts": [
     {
-      "matches": ["*://www.youtube.com/watch*"],
-      "js": ["browser-polyfill.js", "storage.js", "content.js"],
+      "matches": [
+        "*://www.youtube.com/watch*"
+      ],
+      "js": [
+        "browser-polyfill.js",
+        "storage.js",
+        "content.js"
+      ],
       "run_at": "document_idle"
     }
   ],
   "background": {
-    "service_worker": "background.js",
-    "scripts": ["background.js"]
+    "service_worker": "background.js"
   },
   "commands": {
     "undo-seek": {
       "suggested_key": {
-        "default": "Ctrl+Z",
-        "mac": "Command+Z"
+        "default": "Alt+Z",
+        "mac": "Alt+Z"
       },
       "description": "Undo last seek operation"
     }

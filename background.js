@@ -65,10 +65,17 @@
 })();
 
 function registerCommandListener() {
+  console.log('YouTube Seek Undo Background: Registering command listener...');
+  console.log('YouTube Seek Undo Background: browser.commands available:', typeof browser.commands);
+  console.log('YouTube Seek Undo Background: browser.commands.onCommand available:', typeof browser.commands?.onCommand);
+  
   browser.commands.onCommand.addListener((command) => {
+    console.log('YouTube Seek Undo Background: Command fired:', command);
     if (command === 'undo-seek') {
       console.log('YouTube Seek Undo: Undo command received');
       handleUndoCommand();
+    } else {
+      console.log('YouTube Seek Undo: Unknown command:', command);
     }
   });
   
