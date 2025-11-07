@@ -60,5 +60,6 @@
     }
   };
 
-  window.browser = browserPolyfill;
+  // Use globalThis for compatibility with both window and service worker contexts
+  globalThis.browser = browserPolyfill;
 })();
