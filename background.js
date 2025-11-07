@@ -159,11 +159,20 @@ async function cleanupTabHistory(tabId) {
   }
 }
 
-function init() {
+async function init() {
   console.log('YouTube Seek Undo Background: Initializing...');
   registerCommandListener();
   registerMessageListener();
   registerTabRemovalListener();
+  
+  // Log available commands for debugging
+  try {
+    const commands = await browser.commands.getAll();
+    console.log('YouTube Seek Undo Background: Available commands:', commands);
+  } catch (error) {
+    console.error('YouTube Seek Undo Background: Failed to get commands:', error);
+  }
+  
   console.log('YouTube Seek Undo Background: Initialization complete');
 }
 
