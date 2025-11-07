@@ -11,7 +11,7 @@ async function getSeekHistory(tabId) {
 
 async function saveSeekHistory(tabId, history) {
     try {
-        const trimmedHistory = history.slice(-3); // Keep only last 3 events
+        const trimmedHistory = history.slice(-3); // save last 3 events
         const key = `seekHistory_${tabId}`;
         await browser.storage.local.set({ [key]: trimmedHistory });
     } catch (error) {

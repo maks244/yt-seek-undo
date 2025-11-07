@@ -1,11 +1,5 @@
-// Service worker context - load polyfill for Chrome compatibility
-if (typeof importScripts !== 'undefined') {
-  try {
-    importScripts('browser-polyfill.js');
-  } catch (e) {
-    console.log('Browser polyfill not needed or already loaded');
-  }
-}
+// Import polyfill for Chrome compatibility
+importScripts('browser-polyfill.js');
 
 function registerCommandListener() {
   browser.commands.onCommand.addListener((command) => {

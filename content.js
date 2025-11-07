@@ -27,7 +27,7 @@ function detectYouTubePlayer() {
         detectionAttempts++;
 
         if (detectionAttempts < MAX_DETECTION_ATTEMPTS) {
-            // Exponential backoff: 500ms, 1s, 2s, 4s, 8s
+            // Exponential backoff: 0.5s, 1s, 2s etc
             const delay = BASE_RETRY_DELAY * Math.pow(2, detectionAttempts - 1);
             console.log(`YouTube Seek Undo: Video player not found, retrying in ${delay}ms (attempt ${detectionAttempts}/${MAX_DETECTION_ATTEMPTS})`);
             setTimeout(detectYouTubePlayer, delay);
@@ -86,7 +86,7 @@ function setupSeekBarListener() {
 function handleSeekBarMouseDown() {
     if (isProgrammaticSeek) return;
 
-    // Flag distinguishes seek bar clicks from arrow key navigation
+    // we want to distinguish seek bar clicks from arrow key navigation
     isSeekBarInteraction = true;
 
     if (videoElement) {
@@ -156,7 +156,7 @@ function setupMessageListener() {
             undoLastSeek();
             sendResponse({ success: true });
         }
-        return true; // Keep channel open for async response
+        return true; // Keep open for response
     });
 
     console.log('YouTube Seek Undo: Message listener setup');
@@ -178,7 +178,7 @@ async function undoLastSeek() {
         return;
     }
 
-    // Prevent undo from being recorded as a new seek event
+    // dont record undo as new seek event
     isProgrammaticSeek = true;
     videoElement.currentTime = undoPosition;
 
